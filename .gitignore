@@ -1,3 +1,6 @@
+*plan.md
+brief.md
+results/*.nc
 *.ipynb_checkpoints*
 .python-version
 .DS_Store
