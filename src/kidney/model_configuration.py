@@ -12,31 +12,76 @@ class ModelConfig:
     outcome: str
 
 
-FORMULA = "{y} ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex"
-FORMULA_GAS = (
+FORMULA_GAGS = "{y} ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex"
+FORMULA_GAGSGAS = (
     "{y} ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex + gtyp:age:sex"
 )
-FORMULA_BP = "{y} ~ gtyp + age + sex + gtyp:age + gtyp:sex"
+FORMULA_GAGS_NO_RAT = "{y} ~ gtyp + age + sex + gtyp:age + gtyp:sex"
 MODEL_CONFIGS = (
-    ModelConfig("bfi_vehicle", FORMULA, PF["bfi_vehicle"], "log_bfi_change"),
-    ModelConfig("bfi_empa", FORMULA, PF["bfi_empa"], "log_bfi_change"),
-    ModelConfig("bfi_baseline", FORMULA, PF["bfi_vehicle"], "log_bfi_baseline"),
     ModelConfig(
-        "bfi_baseline_extra_interaction",
-        FORMULA_GAS,
+        "bfi_vehicle",
+        FORMULA_GAGS,
+        PF["bfi_vehicle"],
+        "log_bfi_change",
+    ),
+    ModelConfig(
+        "bfi_empa",
+        FORMULA_GAGS,
+        PF["bfi_empa"],
+        "log_bfi_change",
+    ),
+    ModelConfig(
+        "bfi_baseline",
+        FORMULA_GAGS,
         PF["bfi_vehicle"],
         "log_bfi_baseline",
     ),
-    ModelConfig("bp_vehicle", FORMULA_BP, PF["bp_vehicle"], "log_bp_change"),
-    ModelConfig("bp_empa", FORMULA_BP, PF["bp_empa"], "log_bp_change"),
-    ModelConfig("bp_baseline", FORMULA_BP, PF["bp_vehicle"], "log_bp_baseline"),
-    ModelConfig("frequency", FORMULA, PF["frequency"], "frequency_change"),
+    ModelConfig(
+        "bfi_baseline_extra_interaction",
+        FORMULA_GAGSGAS,
+        PF["bfi_vehicle"],
+        "log_bfi_baseline",
+    ),
+    ModelConfig(
+        "bp_vehicle",
+        FORMULA_GAGS_NO_RAT,
+        PF["bp_vehicle"],
+        "log_bp_change",
+    ),
+    ModelConfig(
+        "bp_empa",
+        FORMULA_GAGS_NO_RAT,
+        PF["bp_empa"],
+        "log_bp_change",
+    ),
+    ModelConfig(
+        "bp_baseline",
+        FORMULA_GAGS_NO_RAT,
+        PF["bp_vehicle"],
+        "log_bp_baseline",
+    ),
+    ModelConfig(
+        "frequency",
+        FORMULA_GAGS,
+        PF["frequency"],
+        "frequency_change",
+    ),
     ModelConfig(
         "frequency_baseline",
-        FORMULA,
+        FORMULA_GAGS,
         PF["frequency"],
         "frequency_vehicle",
     ),
-    ModelConfig("power", FORMULA, PF["power"], "log_power_change"),
-    ModelConfig("power_baseline", FORMULA, PF["power"], "log_power_vehicle"),
+    ModelConfig(
+        "power",
+        FORMULA_GAGS,
+        PF["power"],
+        "log_power_change",
+    ),
+    ModelConfig(
+        "power_baseline",
+        FORMULA_GAGS,
+        PF["power"],
+        "log_power_vehicle",
+    ),
 )

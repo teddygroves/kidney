@@ -12,6 +12,9 @@ RAW_FILES = {
     "bp_rec2": RAW_DIR / "meanBP_rec2Empa.csv",
     "frequency": RAW_DIR / "frequency.csv",
     "power": RAW_DIR / "power.csv",
+    "vein_glucose": RAW_DIR / "vein_glucose.csv",
+    "biochem_vehicle": RAW_DIR / "biochem_data_vehicle.csv",
+    "biochem_change": RAW_DIR / "biochem_data_change_empa_vehicle.csv",
 }
 PREPARED_FILES = {
     "bfi": PREPARED_DIR / "bfi.csv",
@@ -22,4 +25,5 @@ PREPARED_FILES = {
     "bp_vehicle": PREPARED_DIR / "bp_vehicle.csv",
     "frequency": PREPARED_DIR / "frequency.csv",
     "power": PREPARED_DIR / "power.csv",
+    "biochem": PREPARED_DIR / "biochem.csv",
 }

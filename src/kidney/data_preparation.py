@@ -1,3 +1,4 @@
+import pdb
 import numpy as np
 import polars as pl
 
@@ -118,3 +119,47 @@ def prepare_power(raw_df: pl.DataFrame) -> pl.DataFrame:
         log_power_change=pl.col("log_power_empa") - pl.col("log_power_vehicle"),
     )
     return power
+
+
+def prepare_biochem(
+    raw_vein_glucose: pl.DataFrame,
+    raw_data_vehicle: pl.DataFrame,
+    raw_change_empa_vehicle: pl.DataFrame,
+) -> pl.DataFrame:
+    out_cols = ["rat", "age", "gtyp", "sex", "stage", "variable", "value"]
+    variable_cols = [
+        "plasma_na",
+        "urine_flow",
+        "excretion_na",
+        "excretion_glucose",
+    ]
+    unpivot_index = ["rat", "age", "gtyp", "sex"]
+    blood_glucose = raw_vein_glucose.rename(
+        {
+            "glucose": "value",
+            "treatment": "stage",
+        }
+    ).with_columns(variable=pl.lit("blood_glucose"))[out_cols]
+    vehicle = raw_data_vehicle.unpivot(
+        on=variable_cols,
+        index=unpivot_index,
+    ).with_columns(stage=pl.lit("vehicle"))[out_cols]
+    change_empa = (
+        raw_change_empa_vehicle.rename(lambda col: col.replace("_change", ""))
+        .unpivot(on=variable_cols, index=unpivot_index)
+        .with_columns(stage=pl.lit("empa_minus_vehicle"))[out_cols]
+    )
+    empa = (
+        vehicle.rename({"value": "vehicle"})
+        .join(
+            change_empa.rename({"value": "change_empa"}),
+            on=unpivot_index + ["variable"],
+            how="full",
+        )
+        .with_columns(
+            value=pl.col("vehicle") + pl.col("change_empa"),
+            stage=pl.lit("empa"),
+        )[out_cols]
+    )
+    out = pl.concat([blood_glucose, vehicle, change_empa, empa])
+    return out

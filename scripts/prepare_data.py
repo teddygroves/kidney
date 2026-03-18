@@ -5,19 +5,22 @@ from kidney.data_preparation import (
     prepare_blood_pressure,
     prepare_frequency,
     prepare_power,
+    prepare_biochem,
 )
 
 
 def main():
     print("Loading raw data...")
-    raw_data = {
-        "bfi_rec1": pl.read_csv(RAW_FILES["bfi_rec1"]),
-        "bfi_rec2": pl.read_csv(RAW_FILES["bfi_rec2"]),
-        "bp_rec1": pl.read_csv(RAW_FILES["bp_rec1"]),
-        "bp_rec2": pl.read_csv(RAW_FILES["bp_rec2"]),
-        "frequency": pl.read_csv(RAW_FILES["frequency"]),
-        "power": pl.read_csv(RAW_FILES["power"]),
-    }
+    raw_data = {k: pl.read_csv(v) for k, v in RAW_FILES.items()}
+
+    print("Preparing biochem data...")
+    biochem = prepare_biochem(
+        raw_data["vein_glucose"],
+        raw_data["biochem_vehicle"],
+        raw_data["biochem_change"],
+    )
+    print(f"Writing {PREPARED_FILES['biochem']}...")
+    biochem.write_csv(PREPARED_FILES["biochem"])
 
     print("Preparing BFI data...")
     bfi = prepare_bfi(raw_data["bfi_rec1"], raw_data["bfi_rec2"])
