@@ -13,16 +13,21 @@ def main():
     for mc in MODEL_CONFIGS:
         print(f"Analysing {mc.name} data (outcome column: {mc.outcome})")
         msts = pl.read_csv(mc.csv)
-        bmb_formula = bmb.Formula(mc.formula.format(y=mc.outcome))
-        model = bmb.Model(formula=bmb_formula, data=msts.to_pandas())
+        model = bmb.Model(formula=mc.formula, data=msts.to_pandas())
         idata = model.fit(
-            target_accept_prob=0.95,
+            target_accept=0.95,
             idata_kwargs={"log_likelihood": True},
         )
         model.predict(
             idata,
             data=msts.to_pandas(),
             kind="response",
+            inplace=True,
+        )
+        model.predict(
+            idata,
+            data=msts.to_pandas(),
+            kind="response_params",
             inplace=True,
         )
         idata.to_netcdf(RESULTS_DIR / f"idata_{mc.name}.nc")

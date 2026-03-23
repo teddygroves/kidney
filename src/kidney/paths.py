@@ -26,4 +26,17 @@ PREPARED_FILES = {
     "frequency": PREPARED_DIR / "frequency.csv",
     "power": PREPARED_DIR / "power.csv",
     "biochem": PREPARED_DIR / "biochem.csv",
+    "blood_glucose": PREPARED_DIR / "blood_glucose.csv",
+    "urine_flow_vehicle": PREPARED_DIR / "urine_flow_vehicle.csv",
+    "excretion_glucose_vehicle": PREPARED_DIR / "excretion_glucose_vehicle.csv",
+    "excretion_na_vehicle": PREPARED_DIR / "excretion_na_vehicle.csv",
+    "plasma_na_vehicle": PREPARED_DIR / "plasma_na_vehicle.csv",
+    "urine_flow_empa_minus_vehicle": PREPARED_DIR
+    / "urine_flow_empa_minus_vehicle.csv",
+    "excretion_glucose_empa_minus_vehicle": PREPARED_DIR
+    / "excretion_glucose_empa_minus_vehicle.csv",
+    "excretion_na_empa_minus_vehicle": PREPARED_DIR
+    / "excretion_na_empa_minus_vehicle.csv",
+    "plasma_na_empa_minus_vehicle": PREPARED_DIR
+    / "plasma_na_empa_minus_vehicle.csv",
 }

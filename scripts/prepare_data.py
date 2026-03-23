@@ -6,6 +6,8 @@ from kidney.data_preparation import (
     prepare_frequency,
     prepare_power,
     prepare_biochem,
+    prepare_blood_glucose,
+    prepare_biochem_subdf,
 )
 
 
@@ -21,7 +23,25 @@ def main():
     )
     print(f"Writing {PREPARED_FILES['biochem']}...")
     biochem.write_csv(PREPARED_FILES["biochem"])
-
+    blood_glucose = prepare_blood_glucose(biochem)
+    print(f"Writing {PREPARED_FILES['blood_glucose']}...")
+    blood_glucose.write_csv(PREPARED_FILES["blood_glucose"])
+    for variable in (
+        "urine_flow",
+        "excretion_glucose",
+        "excretion_na",
+        "plasma_na",
+    ):
+        subdf_vehicle = prepare_biochem_subdf(biochem, variable, "vehicle")
+        print(f"Writing {PREPARED_FILES[variable + '_vehicle']}...")
+        subdf_vehicle.write_csv(PREPARED_FILES[variable + "_vehicle"])
+        subdf_change = prepare_biochem_subdf(
+            biochem,
+            variable,
+            "empa_minus_vehicle",
+        )
+        print(f"Writing {PREPARED_FILES[variable + '_empa_minus_vehicle']}...")
+        subdf_change.write_csv(PREPARED_FILES[variable + "_empa_minus_vehicle"])
     print("Preparing BFI data...")
     bfi = prepare_bfi(raw_data["bfi_rec1"], raw_data["bfi_rec2"])
     print(f"Writing {PREPARED_FILES['bfi']}...")

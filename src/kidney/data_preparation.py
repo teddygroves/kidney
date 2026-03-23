@@ -1,4 +1,3 @@
-import pdb
 import numpy as np
 import polars as pl
 
@@ -162,4 +161,58 @@ def prepare_biochem(
         )[out_cols]
     )
     out = pl.concat([blood_glucose, vehicle, change_empa, empa])
+    return out
+
+
+def prepare_blood_glucose(biochem):
+    msts = biochem.filter(variable="blood_glucose")
+    top_value = (
+        msts["value"].max() + 0.5
+    )  # assume that oversaturated measurements were at least this high
+    all_msts = (
+        pl.DataFrame(
+            {
+                "rat": msts["rat"].unique(),
+                "beforeAnesthesia": 1,
+                "vehicle": 2,
+                "empa": 3,
+            }
+        )
+        .unpivot(index="rat", variable_name="stage", value_name="order")
+        .sort("rat", "order")
+        .join(
+            msts[["rat", "age", "gtyp", "sex"]].unique(), on="rat", how="left"
+        )
+        .drop("order")
+    )
+    filter_missing_measurements = ~(
+        pl.col("value").is_null()
+        & ((pl.col("gtyp") == "fa/+") | (pl.col("rat") == "20240816a"))
+    )
+    return (
+        msts[["rat", "stage", "value"]]
+        .join(all_msts, on=("rat", "stage"), how="right")
+        .filter(filter_missing_measurements)
+        .with_columns(
+            too_high=pl.when(pl.col("value").is_null())
+            .then(pl.lit("right"))
+            .otherwise(pl.lit("none")),
+            value=pl.when(pl.col("value").is_null())
+            .then(top_value)
+            .otherwise(pl.col("value")),
+        )
+        .with_columns(log_value=np.log(pl.col("value")))
+    )
+
+
+def prepare_biochem_subdf(raw_df, variable, stage):
+    out = (
+        raw_df.filter(
+            pl.col("variable").eq(variable) & pl.col("stage").eq(stage)
+        )
+        .drop_nulls()
+        .sort("gtyp", "age", "sex")
+    )
+    if stage == "vehicle":
+        out = out.with_columns(log_value=np.log(pl.col("value")))
     return out
