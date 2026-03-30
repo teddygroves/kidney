@@ -133,25 +133,25 @@ MODEL_CONFIGS = (
     ModelConfig(
         "urine_flow_empa_minus_vehicle",
         FORMULA_GAGS_NO_RAT,
-        PREPARED_FILES["urine_flow_empa_minus_vehicle"],
+        PREPARED_FILES["urine_flow_log_empa_minus_log_vehicle"],
         "value",
     ),
     ModelConfig(
         "excretion_glucose_empa_minus_vehicle",
         FORMULA_GAGS_NO_RAT,
-        PREPARED_FILES["excretion_glucose_empa_minus_vehicle"],
+        PREPARED_FILES["excretion_glucose_log_empa_minus_log_vehicle"],
         "value",
     ),
     ModelConfig(
         "excretion_na_empa_minus_vehicle",
         FORMULA_EXCRETION_NA_CHANGE,
-        PREPARED_FILES["excretion_na_empa_minus_vehicle"],
+        PREPARED_FILES["excretion_na_log_empa_minus_log_vehicle"],
         "value",
     ),
     ModelConfig(
         "plasma_na_empa_minus_vehicle",
         FORMULA_GAGS_NO_RAT,
-        PREPARED_FILES["plasma_na_empa_minus_vehicle"],
+        PREPARED_FILES["plasma_na_log_empa_minus_log_vehicle"],
         "value",
     ),
 )

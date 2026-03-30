@@ -40,8 +40,19 @@ def main():
             variable,
             "empa_minus_vehicle",
         )
+        subdf_log_change = prepare_biochem_subdf(
+            biochem,
+            variable,
+            "log_empa_minus_log_vehicle",
+        )
         print(f"Writing {PREPARED_FILES[variable + '_empa_minus_vehicle']}...")
         subdf_change.write_csv(PREPARED_FILES[variable + "_empa_minus_vehicle"])
+        print(
+            f"Writing {PREPARED_FILES[variable + '_log_empa_minus_log_vehicle']}..."
+        )
+        subdf_log_change.write_csv(
+            PREPARED_FILES[variable + "_log_empa_minus_log_vehicle"]
+        )
     print("Preparing BFI data...")
     bfi = prepare_bfi(raw_data["bfi_rec1"], raw_data["bfi_rec2"])
     print(f"Writing {PREPARED_FILES['bfi']}...")

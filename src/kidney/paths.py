@@ -39,4 +39,12 @@ PREPARED_FILES = {
     / "excretion_na_empa_minus_vehicle.csv",
     "plasma_na_empa_minus_vehicle": PREPARED_DIR
     / "plasma_na_empa_minus_vehicle.csv",
+    "urine_flow_log_empa_minus_log_vehicle": PREPARED_DIR
+    / "urine_flow_log_empa_minus_log_vehicle.csv",
+    "excretion_glucose_log_empa_minus_log_vehicle": PREPARED_DIR
+    / "excretion_glucose_log_empa_minus_log_vehicle.csv",
+    "excretion_na_log_empa_minus_log_vehicle": PREPARED_DIR
+    / "excretion_na_log_empa_minus_log_vehicle.csv",
+    "plasma_na_log_empa_minus_log_vehicle": PREPARED_DIR
+    / "plasma_na_log_empa_minus_log_vehicle.csv",
 }

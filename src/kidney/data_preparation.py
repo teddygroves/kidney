@@ -160,7 +160,19 @@ def prepare_biochem(
             stage=pl.lit("empa"),
         )[out_cols]
     )
-    out = pl.concat([blood_glucose, vehicle, change_empa, empa])
+    log_change_empa = (
+        raw_change_empa_vehicle.rename(lambda col: col.replace("_change", ""))
+        .unpivot(on=variable_cols, index=unpivot_index)
+        .join(vehicle, on=unpivot_index + ["variable"], suffix="_v", how="left")
+        .join(empa, on=unpivot_index + ["variable"], suffix="_e", how="left")
+        .with_columns(
+            value=np.log(pl.col("value_e")) - np.log(pl.col("value_v")),
+            stage=pl.lit("log_empa_minus_log_vehicle"),
+        )[out_cols]
+    )
+    out = pl.concat(
+        [blood_glucose, vehicle, change_empa, empa, log_change_empa]
+    )
     return out
 
 
