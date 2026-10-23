@@ -5,6 +5,10 @@ RAW_DIR = ROOT / "data" / "raw"
 PREPARED_DIR = ROOT / "data" / "prepared"
 RESULTS_DIR = ROOT / "results"
 PLOT_DIR = ROOT / "plots"
+RAW_DIR_NEW = RAW_DIR / "new"
+PREPARED_DIR_NEW = PREPARED_DIR / "new"
+RESULTS_DIR_NEW = RESULTS_DIR / "new"
+PLOT_DIR_NEW = PLOT_DIR / "new"
 RAW_FILES = {
     "bfi_rec1": RAW_DIR / "meanBFI_rec1Vehicle.csv",
     "bfi_rec2": RAW_DIR / "meanBFI_rec2Empa.csv",
@@ -15,6 +19,8 @@ RAW_FILES = {
     "vein_glucose": RAW_DIR / "vein_glucose.csv",
     "biochem_vehicle": RAW_DIR / "biochem_data_vehicle.csv",
     "biochem_change": RAW_DIR / "biochem_data_change_empa_vehicle.csv",
+    "baseline_power_lfb": RAW_DIR_NEW / "power_baseline_LowFrqBand_all.csv",
+    "baseline_power_cb": RAW_DIR_NEW / "power_baseline_canonBand_all.csv",
 }
 PREPARED_FILES = {
     "bfi": PREPARED_DIR / "bfi.csv",
@@ -47,4 +53,8 @@ PREPARED_FILES = {
     / "excretion_na_log_empa_minus_log_vehicle.csv",
     "plasma_na_log_empa_minus_log_vehicle": PREPARED_DIR
     / "plasma_na_log_empa_minus_log_vehicle.csv",
+}
+PREPARED_FILES_NEW = {
+    "baseline_power_vehicle": PREPARED_DIR / "baseline_power_vehicle.csv",
+    "baseline_power_empa": PREPARED_DIR / "baseline_power_empa.csv",
 }

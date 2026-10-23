@@ -1,5 +1,5 @@
 import polars as pl
-from kidney.paths import RAW_FILES, PREPARED_FILES
+from kidney.paths import RAW_FILES, PREPARED_FILES, PREPARED_FILES_NEW
 from kidney.data_preparation import (
     prepare_bfi,
     prepare_blood_pressure,
@@ -8,6 +8,7 @@ from kidney.data_preparation import (
     prepare_biochem,
     prepare_blood_glucose,
     prepare_biochem_subdf,
+    prepare_baseline_power,
 )
 
 
@@ -80,6 +81,18 @@ def main():
     power = prepare_power(raw_data["power"])
     print(f"Writing {PREPARED_FILES['power']}...")
     power.write_csv(PREPARED_FILES["power"])
+
+    print("Preparing baseline power data...")
+    baseline_power_vehicle, baseline_power_empa = prepare_baseline_power(
+        lfb=raw_data["baseline_power_lfb"],
+        cb=raw_data["baseline_power_cb"],
+    )
+    print(f"Writing {PREPARED_FILES_NEW['baseline_power_vehicle']}...")
+    baseline_power_vehicle.write_csv(
+        PREPARED_FILES_NEW["baseline_power_vehicle"]
+    )
+    print(f"Writing {PREPARED_FILES_NEW['baseline_power_empa']}...")
+    baseline_power_empa.write_csv(PREPARED_FILES_NEW["baseline_power_empa"])
 
     print("Done!")
 

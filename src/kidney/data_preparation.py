@@ -7,6 +7,22 @@ def standardise(x: pl.Expr) -> pl.Expr:
     return (x - x.mean()) / x.std()
 
 
+def prepare_baseline_power(
+    lfb: pl.DataFrame, cb: pl.DataFrame
+) -> tuple[pl.DataFrame, pl.DataFrame]:
+    all = (
+        pl.concat(
+            [
+                lfb.with_columns(band=pl.lit("low_frequency")),
+                cb.with_columns(band=pl.lit("canon")),
+            ]
+        )
+        .with_columns(log_baseline=np.log(pl.col("baseline")))
+        .drop_nulls()
+    )
+    return all.filter(treatment="vehicle"), all.filter(treatment="empa")
+
+
 def prepare_bfi(raw_rec1: pl.DataFrame, raw_rec2: pl.DataFrame) -> pl.DataFrame:
     """Prepare BFI data from two recording files.
 
