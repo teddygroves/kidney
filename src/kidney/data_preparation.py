@@ -7,6 +7,47 @@ def standardise(x: pl.Expr) -> pl.Expr:
     return (x - x.mean()) / x.std()
 
 
+def prepare_baseline_activity_types(
+    bat: pl.DataFrame,
+) -> tuple[pl.DataFrame, pl.DataFrame]:
+    all = (
+        bat.drop_nulls()
+        .pivot(
+            on="activity_type",
+            index=["rat", "recording", "gtyp", "sex", "age"],
+            values="n",
+        )
+        .select(
+            "rat",
+            "recording",
+            "gtyp",
+            "sex",
+            "age",
+            "canonical",
+            "double",
+            "subthreshold",
+            "beats",
+        )
+    )
+    return all.filter(recording="vehicle"), all.filter(recording="empa")
+
+
+def prepare_frequency_new(
+    fq: pl.DataFrame,
+) -> tuple[pl.DataFrame, pl.DataFrame]:
+    all = fq.drop_nulls().with_columns(
+        ln_change=np.log(pl.col("injected") / pl.col("baseline"))
+    )
+    return all.filter(treatment="vehicle"), all.filter(treatment="empa")
+
+
+def prepare_power_change(pc: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
+    all = pc.with_columns(
+        ln_change=np.log(pl.col("injected") / pl.col("baseline"))
+    ).drop_nulls()
+    return all.filter(treatment="vehicle"), all.filter(treatment="empa")
+
+
 def prepare_baseline_power(
     lfb: pl.DataFrame, cb: pl.DataFrame
 ) -> tuple[pl.DataFrame, pl.DataFrame]:

@@ -21,6 +21,9 @@ RAW_FILES = {
     "biochem_change": RAW_DIR / "biochem_data_change_empa_vehicle.csv",
     "baseline_power_lfb": RAW_DIR_NEW / "power_baseline_LowFrqBand_all.csv",
     "baseline_power_cb": RAW_DIR_NEW / "power_baseline_canonBand_all.csv",
+    "power_change": RAW_DIR_NEW / "power_change.csv",
+    "frequency_new": RAW_DIR_NEW / "frequency.csv",
+    "baseline_activity_types": RAW_DIR_NEW / "baseline_activity_types.csv",
 }
 PREPARED_FILES = {
     "bfi": PREPARED_DIR / "bfi.csv",
@@ -55,6 +58,14 @@ PREPARED_FILES = {
     / "plasma_na_log_empa_minus_log_vehicle.csv",
 }
 PREPARED_FILES_NEW = {
-    "baseline_power_vehicle": PREPARED_DIR / "baseline_power_vehicle.csv",
-    "baseline_power_empa": PREPARED_DIR / "baseline_power_empa.csv",
+    "baseline_power_vehicle": PREPARED_DIR_NEW / "baseline_power_vehicle.csv",
+    "baseline_power_empa": PREPARED_DIR_NEW / "baseline_power_empa.csv",
+    "power_change_vehicle": PREPARED_DIR_NEW / "power_change_vehicle.csv",
+    "power_change_empa": PREPARED_DIR_NEW / "power_change_empa.csv",
+    "frequency_vehicle": PREPARED_DIR_NEW / "frequency_vehicle.csv",
+    "frequency_empa": PREPARED_DIR_NEW / "frequency_empa.csv",
+    "baseline_activity_types_vehicle": PREPARED_DIR_NEW
+    / "baseline_activity_types_vehicle.csv",
+    "baseline_activity_types_empa": PREPARED_DIR_NEW
+    / "baseline_activity_types_empa.csv",
 }

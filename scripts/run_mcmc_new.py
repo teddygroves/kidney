@@ -13,7 +13,12 @@ def main():
     for mc in MODEL_CONFIGS:
         print(f"Analysing {mc.name} data (outcome column: {mc.outcome})")
         msts = pl.read_csv(mc.csv)
-        model = bmb.Model(formula=mc.formula, data=msts.to_pandas())
+        model = bmb.Model(
+            formula=mc.formula,
+            data=msts.to_pandas(),
+            family=mc.family,
+            priors=mc.priors,
+        )
         idata = model.fit(
             target_accept=0.95,
             idata_kwargs={"log_likelihood": True},

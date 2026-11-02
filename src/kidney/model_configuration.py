@@ -12,6 +12,8 @@ class ModelConfig:
     formula: str | bmb.Formula
     csv: Path
     outcome: str
+    family: str = "gaussian"
+    priors: dict[str, bmb.Prior] | None = None
 
     def __post_init__(self):
         if isinstance(self.formula, str):

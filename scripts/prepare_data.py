@@ -1,15 +1,19 @@
 import polars as pl
-from kidney.paths import RAW_FILES, PREPARED_FILES, PREPARED_FILES_NEW
+
 from kidney.data_preparation import (
+    prepare_baseline_power,
     prepare_bfi,
+    prepare_biochem,
+    prepare_biochem_subdf,
+    prepare_blood_glucose,
     prepare_blood_pressure,
     prepare_frequency,
+    prepare_frequency_new,
     prepare_power,
-    prepare_biochem,
-    prepare_blood_glucose,
-    prepare_biochem_subdf,
-    prepare_baseline_power,
+    prepare_power_change,
+    prepare_baseline_activity_types,
 )
+from kidney.paths import PREPARED_FILES, PREPARED_FILES_NEW, RAW_FILES
 
 
 def main():
@@ -94,6 +98,32 @@ def main():
     print(f"Writing {PREPARED_FILES_NEW['baseline_power_empa']}...")
     baseline_power_empa.write_csv(PREPARED_FILES_NEW["baseline_power_empa"])
 
+    print("Preparing power change data...")
+    power_change_vehicle, power_change_empa = prepare_power_change(
+        raw_data["power_change"]
+    )
+    print(f"Writing {PREPARED_FILES_NEW['power_change_vehicle']}...")
+    power_change_vehicle.write_csv(PREPARED_FILES_NEW["power_change_vehicle"])
+    print(f"Writing {PREPARED_FILES_NEW['power_change_empa']}...")
+    power_change_empa.write_csv(PREPARED_FILES_NEW["power_change_empa"])
+
+    print("Preparing frequency data...")
+    frequency_vehicle, frequency_empa = prepare_frequency_new(
+        raw_data["frequency_new"]
+    )
+    print(f"Writing {PREPARED_FILES_NEW['frequency_vehicle']}...")
+    frequency_vehicle.write_csv(PREPARED_FILES_NEW["frequency_vehicle"])
+    print(f"Writing {PREPARED_FILES_NEW['frequency_empa']}...")
+    frequency_empa.write_csv(PREPARED_FILES_NEW["frequency_empa"])
+
+    print("Preparing baseline activity types data...")
+    bat_vehicle, bat_empa = prepare_baseline_activity_types(
+        raw_data["baseline_activity_types"]
+    )
+    print(f"Writing {PREPARED_FILES_NEW['baseline_activity_types_vehicle']}...")
+    bat_vehicle.write_csv(PREPARED_FILES_NEW["baseline_activity_types_vehicle"])
+    print(f"Writing {PREPARED_FILES_NEW['baseline_activity_types_empa']}...")
+    bat_empa.write_csv(PREPARED_FILES_NEW["baseline_activity_types_empa"])
     print("Done!")
 
 
