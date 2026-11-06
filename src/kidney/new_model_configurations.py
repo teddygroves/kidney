@@ -4,10 +4,17 @@ from kidney.paths import PREPARED_FILES_NEW
 from kidney.model_configuration import ModelConfig
 
 
+# FORMULA_BASELINE_POWER = bmb.Formula(
+#     "log_baseline ~ (1|rat) + band + gtyp + age + sex + gtyp:age + gtyp:sex",
+#     "sigma ~ band",
+# )
+
+## Allows showing overall effects for two bands separately
 FORMULA_BASELINE_POWER = bmb.Formula(
-    "log_baseline ~ (1|rat) + band + gtyp + age + sex + gtyp:age + gtyp:sex",
+    "log_baseline ~ (1|rat) + band * (gtyp + age + sex + gtyp:sex) + gtyp:age",
     "sigma ~ band",
 )
+
 FORMULA_POWER_CHANGE = bmb.Formula(
     "ln_change ~ (1|rat) + activity_type + gtyp + age + sex + gtyp:age + gtyp:sex",
 )
