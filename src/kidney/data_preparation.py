@@ -7,6 +7,21 @@ def standardise(x: pl.Expr) -> pl.Expr:
     return (x - x.mean()) / x.std()
 
 
+def prepare_body_weight(raw_df: pl.DataFrame) -> pl.DataFrame:
+    """Prepare one body-weight measurement per rat for Bayesian modeling."""
+
+    body_weight = (
+        raw_df
+        .select("rat", "gtyp", "age", "sex", "weight")
+        .drop_nulls()
+        .sort("gtyp", "age", "sex")
+    )
+
+    if body_weight["rat"].n_unique() != body_weight.height:
+        raise ValueError("Expected exactly one body-weight measurement per rat.")
+
+    return body_weight
+
 def prepare_baseline_activity_types(
     bat: pl.DataFrame,
 ) -> tuple[pl.DataFrame, pl.DataFrame]:

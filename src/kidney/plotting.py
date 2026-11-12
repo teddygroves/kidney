@@ -121,15 +121,15 @@ def forestplot_oz(
     xbiggest = max(np.abs(xlows + xhighs)) + 0.1
     ax.set_xlim(-xbiggest, xbiggest)
     line_label = f"{qlow * 100}%-{qhigh * 100}% interquantile range"
-    colors = ['r' if 'fa/fa' in key and not 'fa/fa - fa/+' in key else 'k' for key in ts.keys()]
-    for i, (y, xlow, xhigh, xmean, cl) in enumerate(zip(ys, xlows, xhighs, xmeans, colors)):
+    # colors = ['k' if 'fa/fa' in key and not 'fa/fa - fa/+' in key else 'k' for key in ts.keys()]
+    for i, (y, xlow, xhigh, xmean) in enumerate(zip(ys, xlows, xhighs, xmeans)):
         line = ax.hlines(
             y=y,
             xmin=xlow,
             xmax=xhigh,
             linewidth=1.3,
             label=line_label if i == 0 else "",
-            color=cl
+            color='k'
         )
         ax.plot(
             xmean,
