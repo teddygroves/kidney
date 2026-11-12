@@ -10,6 +10,7 @@ PREPARED_DIR_NEW = PREPARED_DIR / "new"
 RESULTS_DIR_NEW = RESULTS_DIR / "new"
 PLOT_DIR_NEW = PLOT_DIR / "new"
 RAW_FILES = {
+    "body_weight": RAW_DIR / "body_weight.csv",
     "bfi_rec1": RAW_DIR / "meanBFI_rec1Vehicle.csv",
     "bfi_rec2": RAW_DIR / "meanBFI_rec2Empa.csv",
     "bp_rec1": RAW_DIR / "meanBP_rec1Vehicle.csv",
@@ -26,6 +27,7 @@ RAW_FILES = {
     "baseline_activity_types": RAW_DIR_NEW / "baseline_activity_types.csv",
 }
 PREPARED_FILES = {
+    "body_weight": PREPARED_DIR / "body_weight.csv",
     "bfi": PREPARED_DIR / "bfi.csv",
     "bfi_empa": PREPARED_DIR / "bfi_empa.csv",
     "bfi_vehicle": PREPARED_DIR / "bfi_vehicle.csv",

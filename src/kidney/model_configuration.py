@@ -37,6 +37,12 @@ FORMULA_EXCRETION_NA_CHANGE = bmb.Formula(
 
 MODEL_CONFIGS = (
     ModelConfig(
+    "body_weight",
+    FORMULA_GAGS_NO_RAT,
+    PREPARED_FILES["body_weight"],
+    "weight",
+    ),
+    ModelConfig(
         "bfi_vehicle",
         FORMULA_GAGS,
         PREPARED_FILES["bfi_vehicle"],
@@ -75,7 +81,7 @@ MODEL_CONFIGS = (
     ModelConfig(
         "bp_baseline",
         FORMULA_GAGS_NO_RAT,
-        PREPARED_FILES["bp_vehicle"],
+        PREPARED_FILES["bp_empa"],
         "log_bp_baseline",
     ),
     ModelConfig(
