@@ -63,22 +63,45 @@ def prepare_power_change(pc: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
     return all.filter(treatment="vehicle"), all.filter(treatment="empa")
 
 
-def prepare_baseline_power(
-    lfb: pl.DataFrame, cb: pl.DataFrame
+# def prepare_baseline_power(
+#     lfb: pl.DataFrame, cb: pl.DataFrame
+# ) -> tuple[pl.DataFrame, pl.DataFrame]:
+#     all = (
+#         pl.concat(
+#             [
+#                 lfb.with_columns(band=pl.lit("low_frequency")),
+#                 cb.with_columns(band=pl.lit("canon")),
+#             ]
+#         )
+#         .with_columns(log_baseline=np.log(pl.col("baseline")))
+#         .drop_nulls()
+#     )
+#     return all.filter(treatment="vehicle"), all.filter(treatment="empa")
+
+def prepare_baseline_power_cb(
+    cb: pl.DataFrame,
 ) -> tuple[pl.DataFrame, pl.DataFrame]:
     all = (
-        pl.concat(
-            [
-                lfb.with_columns(band=pl.lit("low_frequency")),
-                cb.with_columns(band=pl.lit("canon")),
-            ]
+        cb.with_columns(
+            band=pl.lit("canon"),
+            log_baseline=np.log(pl.col("baseline")),
         )
-        .with_columns(log_baseline=np.log(pl.col("baseline")))
         .drop_nulls()
     )
     return all.filter(treatment="vehicle"), all.filter(treatment="empa")
 
-
+def prepare_baseline_power_lfb(
+    lfb: pl.DataFrame,
+) -> tuple[pl.DataFrame, pl.DataFrame]:
+    all = (
+        lfb.with_columns(
+            band=pl.lit("low_frequency"),
+            log_baseline=np.log(pl.col("baseline")),
+        )
+        .drop_nulls()
+    )
+    return all.filter(treatment="vehicle"), all.filter(treatment="empa")
+    
 def prepare_bfi(raw_rec1: pl.DataFrame, raw_rec2: pl.DataFrame) -> pl.DataFrame:
     """Prepare BFI data from two recording files.
 

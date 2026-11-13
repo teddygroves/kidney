@@ -1,7 +1,6 @@
 import polars as pl
 
 from kidney.data_preparation import (
-    prepare_baseline_power,
     prepare_bfi,
     prepare_biochem,
     prepare_biochem_subdf,
@@ -10,6 +9,8 @@ from kidney.data_preparation import (
     prepare_frequency,
     prepare_frequency_new,
     prepare_power,
+    prepare_baseline_power_cb,
+    prepare_baseline_power_lfb,
     prepare_power_change,
     prepare_baseline_activity_types,
     prepare_body_weight,
@@ -94,22 +95,31 @@ def main():
     print(f"Writing {PREPARED_FILES['power']}...")
     power.write_csv(PREPARED_FILES["power"])
 
-    print("Preparing baseline power data...")
-    baseline_power_vehicle, baseline_power_empa = prepare_baseline_power(
-        lfb=raw_data["baseline_power_lfb"],
-        cb=raw_data["baseline_power_cb"],
-    )
-    print(f"Writing {PREPARED_FILES_NEW['baseline_power_vehicle']}...")
+    print("Preparing baseline power data - canonical band...")
+    baseline_power_vehicle, baseline_power_empa = prepare_baseline_power_cb(cb=raw_data["baseline_power_cb"])
+    
+    print(f"Writing {PREPARED_FILES_NEW['baseline_power_vehicle_cb']}...")
     baseline_power_vehicle.write_csv(
-        PREPARED_FILES_NEW["baseline_power_vehicle"]
+        PREPARED_FILES_NEW["baseline_power_vehicle_cb"]
     )
-    print(f"Writing {PREPARED_FILES_NEW['baseline_power_empa']}...")
-    baseline_power_empa.write_csv(PREPARED_FILES_NEW["baseline_power_empa"])
+    print(f"Writing {PREPARED_FILES_NEW['baseline_power_empa_cb']}...")
+    baseline_power_empa.write_csv(PREPARED_FILES_NEW["baseline_power_empa_cb"])
+
+    print("Preparing baseline power data - lowfreq band...")
+    baseline_power_vehicle, baseline_power_empa = prepare_baseline_power_lfb(lfb=raw_data["baseline_power_lfb"])
+    
+    print(f"Writing {PREPARED_FILES_NEW['baseline_power_vehicle_lfb']}...")
+    baseline_power_vehicle.write_csv(
+        PREPARED_FILES_NEW["baseline_power_vehicle_lfb"]
+    )
+    print(f"Writing {PREPARED_FILES_NEW['baseline_power_empa_lfb']}...")
+    baseline_power_empa.write_csv(PREPARED_FILES_NEW["baseline_power_empa_lfb"])
 
     print("Preparing power change data...")
     power_change_vehicle, power_change_empa = prepare_power_change(
         raw_data["power_change"]
     )
+    
     print(f"Writing {PREPARED_FILES_NEW['power_change_vehicle']}...")
     power_change_vehicle.write_csv(PREPARED_FILES_NEW["power_change_vehicle"])
     print(f"Writing {PREPARED_FILES_NEW['power_change_empa']}...")

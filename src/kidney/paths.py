@@ -60,8 +60,11 @@ PREPARED_FILES = {
     / "plasma_na_log_empa_minus_log_vehicle.csv",
 }
 PREPARED_FILES_NEW = {
-    "baseline_power_vehicle": PREPARED_DIR_NEW / "baseline_power_vehicle.csv",
-    "baseline_power_empa": PREPARED_DIR_NEW / "baseline_power_empa.csv",
+    "baseline_power_vehicle_cb": PREPARED_DIR_NEW / "baseline_power_vehicle_cb.csv",
+    "baseline_power_empa_cb": PREPARED_DIR_NEW / "baseline_power_empa_cb.csv",
+    "baseline_power_vehicle_lfb": PREPARED_DIR_NEW / "baseline_power_vehicle_lfb.csv",
+    "baseline_power_empa_lfb": PREPARED_DIR_NEW / "baseline_power_empa_lfb.csv",
+    
     "power_change_vehicle": PREPARED_DIR_NEW / "power_change_vehicle.csv",
     "power_change_empa": PREPARED_DIR_NEW / "power_change_empa.csv",
     "frequency_vehicle": PREPARED_DIR_NEW / "frequency_vehicle.csv",

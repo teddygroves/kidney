@@ -27,7 +27,8 @@ uv run jupyter execute notebooks/analyse\ fits-freq.ipynb
 uv run jupyter execute notebooks/analyse\ fits-PlasmaNa_overall_effects.ipynb
 uv run jupyter execute notebooks/analyse\ fits-pow.ipynb
 uv run jupyter execute notebooks/analyse\ fits-UrineFlow_overall_effects.ipynb
-uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ power.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ power-canon.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ power-lowfreq.ipynb
 uv run jupyter execute notebooks/new/analyse\ fits\ power\ change.ipynb
 uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ baseline.ipynb
 uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ change.ipynb
