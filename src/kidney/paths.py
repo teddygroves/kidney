@@ -69,6 +69,13 @@ PREPARED_FILES_NEW = {
     "power_change_empa": PREPARED_DIR_NEW / "power_change_empa.csv",
     "frequency_vehicle": PREPARED_DIR_NEW / "frequency_vehicle.csv",
     "frequency_empa": PREPARED_DIR_NEW / "frequency_empa.csv",
+    **{
+        f"{name}_{treatment}_{activity_type}": PREPARED_DIR_NEW
+        / f"{name}_{treatment}_{activity_type}.csv"
+        for name in ("power_change", "frequency")
+        for treatment in ("vehicle", "empa")
+        for activity_type in ("single", "double")
+    },
     "baseline_activity_types_vehicle": PREPARED_DIR_NEW
     / "baseline_activity_types_vehicle.csv",
     "baseline_activity_types_empa": PREPARED_DIR_NEW

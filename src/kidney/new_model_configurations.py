@@ -8,13 +8,13 @@ FORMULA_BASELINE_POWER = bmb.Formula(
     "log_baseline ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex",
 )
 FORMULA_POWER_CHANGE = bmb.Formula(
-    "ln_change ~ (1|rat) + activity_type + gtyp + age + sex + gtyp:age + gtyp:sex",
+    "ln_change ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex",
 )
 FORMULA_FREQUENCY_BASELINE = bmb.Formula(
-    "baseline ~ (1|rat) + activity_type + gtyp + age + sex + gtyp:age + gtyp:sex",
+    "baseline ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex",
 )
 FORMULA_FREQUENCY_CHANGE = bmb.Formula(
-    "ln_change ~ (1|rat) + activity_type + gtyp + age + sex + gtyp:age + gtyp:sex",
+    "ln_change ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex",
 )
 FORMULA_BAT = bmb.Formula(
     "c(canonical, double, subthreshold, beats) ~ (1|rat) + gtyp + age + sex"
@@ -52,41 +52,29 @@ MODEL_CONFIGS = (
         "log_baseline",
     ),
     
-    ModelConfig(
-        "power_change_vehicle",
-        FORMULA_POWER_CHANGE,
-        PREPARED_FILES_NEW["power_change_vehicle"],
-        "ln_change",
+    *(
+        ModelConfig(
+            f"power_change_{treatment}_{activity_type}",
+            FORMULA_POWER_CHANGE,
+            PREPARED_FILES_NEW[f"power_change_{treatment}_{activity_type}"],
+            "ln_change",
+        )
+        for treatment in ("vehicle", "empa")
+        for activity_type in ("single", "double")
     ),
-    ModelConfig(
-        "power_change_empa",
-        FORMULA_POWER_CHANGE,
-        PREPARED_FILES_NEW["power_change_empa"],
-        "ln_change",
-    ),
-    ModelConfig(
-        "frequency_vehicle_baseline",
-        FORMULA_FREQUENCY_BASELINE,
-        PREPARED_FILES_NEW["frequency_vehicle"],
-        "baseline",
-    ),
-    ModelConfig(
-        "frequency_vehicle_change",
-        FORMULA_FREQUENCY_CHANGE,
-        PREPARED_FILES_NEW["frequency_vehicle"],
-        "ln_change",
-    ),
-    ModelConfig(
-        "frequency_empa_baseline",
-        FORMULA_FREQUENCY_BASELINE,
-        PREPARED_FILES_NEW["frequency_empa"],
-        "baseline",
-    ),
-    ModelConfig(
-        "frequency_empa_change",
-        FORMULA_FREQUENCY_CHANGE,
-        PREPARED_FILES_NEW["frequency_empa"],
-        "ln_change",
+    *(
+        ModelConfig(
+            f"frequency_{treatment}_{stage}_{activity_type}",
+            formula,
+            PREPARED_FILES_NEW[f"frequency_{treatment}_{activity_type}"],
+            outcome,
+        )
+        for stage, formula, outcome in (
+            ("baseline", FORMULA_FREQUENCY_BASELINE, "baseline"),
+            ("change", FORMULA_FREQUENCY_CHANGE, "ln_change"),
+        )
+        for treatment in ("vehicle", "empa")
+        for activity_type in ("single", "double")
     ),
     ModelConfig(
         "baseline_activity_types_vehicle",
