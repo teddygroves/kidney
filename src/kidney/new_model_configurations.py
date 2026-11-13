@@ -5,8 +5,7 @@ from kidney.model_configuration import ModelConfig
 
 
 FORMULA_BASELINE_POWER = bmb.Formula(
-    "log_baseline ~ (1|rat) + band + gtyp + age + sex + gtyp:age + gtyp:sex",
-    "sigma ~ band",
+    "log_baseline ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex",
 )
 FORMULA_POWER_CHANGE = bmb.Formula(
     "ln_change ~ (1|rat) + activity_type + gtyp + age + sex + gtyp:age + gtyp:sex",
@@ -28,17 +27,31 @@ PRIORS_BAT = {
 
 MODEL_CONFIGS = (
     ModelConfig(
-        "baseline_power_vehicle",
+        "baseline_power_vehicle_cb",
         FORMULA_BASELINE_POWER,
-        PREPARED_FILES_NEW["baseline_power_vehicle"],
+        PREPARED_FILES_NEW["baseline_power_vehicle_cb"],
         "log_baseline",
     ),
     ModelConfig(
-        "baseline_power_empa",
+        "baseline_power_empa_cb",
         FORMULA_BASELINE_POWER,
-        PREPARED_FILES_NEW["baseline_power_empa"],
+        PREPARED_FILES_NEW["baseline_power_empa_cb"],
         "log_baseline",
     ),
+    
+    ModelConfig(
+        "baseline_power_vehicle_lfb",
+        FORMULA_BASELINE_POWER,
+        PREPARED_FILES_NEW["baseline_power_vehicle_lfb"],
+        "log_baseline",
+    ),
+    ModelConfig(
+        "baseline_power_empa_lfb",
+        FORMULA_BASELINE_POWER,
+        PREPARED_FILES_NEW["baseline_power_empa_lfb"],
+        "log_baseline",
+    ),
+    
     ModelConfig(
         "power_change_vehicle",
         FORMULA_POWER_CHANGE,

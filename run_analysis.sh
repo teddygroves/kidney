@@ -13,19 +13,22 @@ uv run scripts/run_mcmc.py
 uv run scripts/run_mcmc_new.py
 
 echo "Step 3: Executing notebook..."
+uv run jupyter execute notebooks/analyse\ fits-BloodGlucose_overall_effects.ipynb
 uv run jupyter execute notebooks/analyse\ fits.ipynb
-uv run jupyter execute notebooks/biochem.ipynb
+uv run jupyter execute notebooks/ppc_biochem_bodyweight.ipynb
 uv run jupyter execute notebooks/blood\ glucose.ipynb
-uv run jupyter execute notebooks/analyse\ fits-bfi.ipynb
-uv run jupyter execute notebooks/analyse\ fits-BloodGlucose.ipynb
-uv run jupyter execute notebooks/analyse\ fits-bp.ipynb
-uv run jupyter execute notebooks/analyse\ fits-ExcretionGlucose.ipynb
-uv run jupyter execute notebooks/analyse\ fits-ExcretionNa.ipynb
+uv run jupyter execute notebooks/analyse\ fits-bfi-new.ipynb
+uv run jupyter execute notebooks/analyse\ fits-BodyWeight_overall_effects.ipynb
+uv run jupyter execute notebooks/analyse\ fits-BloodGlucose_overall_effects.ipynb
+uv run jupyter execute notebooks/analyse\ fits-bp_overall_effects.ipynb
+uv run jupyter execute notebooks/analyse\ fits-ExcretionGlucose_overall_effects.ipynb
+uv run jupyter execute notebooks/analyse\ fits-ExcretionNa_overall_effects.ipynb
 uv run jupyter execute notebooks/analyse\ fits-freq.ipynb
-uv run jupyter execute notebooks/analyse\ fits-PlasmaNa.ipynb
+uv run jupyter execute notebooks/analyse\ fits-PlasmaNa_overall_effects.ipynb
 uv run jupyter execute notebooks/analyse\ fits-pow.ipynb
-uv run jupyter execute notebooks/analyse\ fits-UrineFlow.ipynb
-uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ power.ipynb
+uv run jupyter execute notebooks/analyse\ fits-UrineFlow_overall_effects.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ power-canon.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ power-lowfreq.ipynb
 uv run jupyter execute notebooks/new/analyse\ fits\ power\ change.ipynb
 uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ baseline.ipynb
 uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ change.ipynb

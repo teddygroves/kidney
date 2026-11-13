@@ -121,15 +121,15 @@ def forestplot_oz(
     xbiggest = max(np.abs(xlows + xhighs)) + 0.1
     ax.set_xlim(-xbiggest, xbiggest)
     line_label = f"{qlow * 100}%-{qhigh * 100}% interquantile range"
-    colors = ['r' if 'fa/fa' in key and not 'fa/fa - fa/+' in key else 'k' for key in ts.keys()]
-    for i, (y, xlow, xhigh, xmean, cl) in enumerate(zip(ys, xlows, xhighs, xmeans, colors)):
+    # colors = ['k' if 'fa/fa' in key and not 'fa/fa - fa/+' in key else 'k' for key in ts.keys()]
+    for i, (y, xlow, xhigh, xmean) in enumerate(zip(ys, xlows, xhighs, xmeans)):
         line = ax.hlines(
             y=y,
             xmin=xlow,
             xmax=xhigh,
             linewidth=1.3,
             label=line_label if i == 0 else "",
-            color=cl
+            color='k'
         )
         ax.plot(
             xmean,
@@ -140,15 +140,34 @@ def forestplot_oz(
             color=line.get_colors()[0],
             label="posterior mean" if i == 0 else "",
         )
+    # if sign_probs:
+    #     # Annotate each line with P(statistic > 0)
+    #     for y, xhigh, t in zip(ys, xhighs, ts.values()):
+    #         ax.annotate(
+    #             f"SP={np.mean(np.asarray(t) > 0):.2f}",
+    #             (xhigh, y),
+    #             xytext=(3, 0),
+    #             textcoords="offset points",
+    #             va="center",
+    #             fontsize=6,
+    #             annotation_clip=False,
+    #         )
+
     if sign_probs:
-        # Annotate each line with P(statistic > 0)
-        for y, xhigh, t in zip(ys, xhighs, ts.values()):
+        # Annotate each line with P(statistic is more extreme). "sign probability (SP), i.e. the posterior mass on one side of zero, or max(k, 1-k) where k is the proportion of samples where TS >0"
+        for y, xhigh, xlow, t in zip(ys, xhighs, xlows, ts.values()):
+            k = np.mean(np.asarray(t) > 0)
+            sp = max([k, 1-k])
+            x_annot = xhigh if k>.5 else xlow
+            ha = 'left' if k>.5 else 'right'
+            xytext = (2,0) if k>.5 else (-2,0)
             ax.annotate(
-                f"SP={np.mean(np.asarray(t) > 0):.2f}",
-                (xhigh, y),
-                xytext=(3, 0),
+                f"{sp:.2f}",
+                (x_annot, y),
+                xytext=xytext,
                 textcoords="offset points",
                 va="center",
+                ha=ha,
                 fontsize=6,
                 annotation_clip=False,
             )
