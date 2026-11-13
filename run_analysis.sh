@@ -13,7 +13,6 @@ uv run scripts/run_mcmc.py
 uv run scripts/run_mcmc_new.py
 
 echo "Step 3: Executing notebook..."
-uv run jupyter execute notebooks/analyse\ fits-BloodGlucose_overall_effects.ipynb
 uv run jupyter execute notebooks/analyse\ fits.ipynb
 uv run jupyter execute notebooks/ppc_biochem_bodyweight.ipynb
 uv run jupyter execute notebooks/blood\ glucose.ipynb
@@ -29,9 +28,13 @@ uv run jupyter execute notebooks/analyse\ fits-pow.ipynb
 uv run jupyter execute notebooks/analyse\ fits-UrineFlow_overall_effects.ipynb
 uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ power-canon.ipynb
 uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ power-lowfreq.ipynb
-uv run jupyter execute notebooks/new/analyse\ fits\ power\ change.ipynb
-uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ baseline.ipynb
-uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ change.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ power\ change-single.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ power\ change-double.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ baseline-single.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ baseline-double.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ change-single.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ frequency\ change-double.ipynb
 uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ activity\ types.ipynb
+uv run jupyter execute notebooks/new/analyse\ fits\ baseline\ activity\ types-oz.ipynb
 
 echo "Analysis pipeline completed successfully!"

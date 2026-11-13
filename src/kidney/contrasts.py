@@ -160,6 +160,11 @@ def get_overall_effects(t_groups):
     }
 
 
+def get_mean(idata):
+    t_groups = get_t_groups(idata)
+    return idata.posterior["Intercept"] + sum(t_groups.values()) / len(t_groups)
+
+
 def get_gtyp_given_sex_age(t_groups):
     return {
         "fa/fa - fa/+, female": gtyp_diff(t_groups, sexes=["female"]),

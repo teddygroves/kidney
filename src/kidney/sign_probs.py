@@ -1,20 +1,15 @@
-def get_sign_probs(ts):
-    return {k: (v>0).mean().item() for k, v in ts.items()}
+import numpy as np
 
-def get_signif(sp):
-    "Return '*' if sp<0.025 or sp>0.975"
-    
-    thresh_prob = 0.025
-    
-    if sp == 0.5:
-        return ''
-    if sp > 0.5:
-        if 1-sp < thresh_prob:
-            return '*'
-        else:
-            return ''
-    if sp < 0.5:
-        if sp < thresh_prob:
-            return '*'
-        else:
-            return ''
+
+def get_sign_prob(t):
+    k = np.mean(np.asarray(t) > 0)
+    return max(k, 1 - k)
+
+
+def get_sign_probs(ts):
+    return {k: get_sign_prob(v) for k, v in ts.items()}
+
+
+def get_signif(sp, thresh_prob=0.975):
+    "Return '*' if sp > 0.975"
+    return "*" if sp > thresh_prob else ""

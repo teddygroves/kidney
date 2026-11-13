@@ -10,6 +10,7 @@ ROOT = Path(__file__).parent.parent
 
 
 def main():
+    RESULTS_DIR_NEW.mkdir(parents=True, exist_ok=True)
     for mc in MODEL_CONFIGS:
         print(f"Analysing {mc.name} data (outcome column: {mc.outcome})")
         msts = pl.read_csv(mc.csv)

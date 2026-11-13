@@ -134,6 +134,20 @@ def main():
     print(f"Writing {PREPARED_FILES_NEW['frequency_empa']}...")
     frequency_empa.write_csv(PREPARED_FILES_NEW["frequency_empa"])
 
+    print("Splitting power change and frequency data by activity type...")
+    for name, treatment, df in (
+        ("power_change", "vehicle", power_change_vehicle),
+        ("power_change", "empa", power_change_empa),
+        ("frequency", "vehicle", frequency_vehicle),
+        ("frequency", "empa", frequency_empa),
+    ):
+        for activity_type in ("single", "double"):
+            key = f"{name}_{treatment}_{activity_type}"
+            print(f"Writing {PREPARED_FILES_NEW[key]}...")
+            df.filter(activity_type=activity_type).write_csv(
+                PREPARED_FILES_NEW[key]
+            )
+
     print("Preparing baseline activity types data...")
     bat_vehicle, bat_empa = prepare_baseline_activity_types(
         raw_data["baseline_activity_types"]
