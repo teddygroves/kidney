@@ -32,6 +32,46 @@ def get_t_groups(idata):
         "fa/fa,male,young": g + s + gs + a + ga,
     }
 
+def get_t_groups_tgf_change(idata):
+    """Linear predictor of each group relative to fa/+,female,adult.
+
+    Model:
+        ln_change ~ (1|rat) + gtyp*age*sex
+
+    Shared terms (Intercept and rat random intercept) are omitted
+    because they cancel in group contrasts.
+
+    Assumes reference levels:
+        gtyp = fa/+
+        age  = adult
+        sex  = female
+    """
+
+    def term(name):
+        # Extract the single non-reference coefficient
+        return idata.posterior[name].isel({f"{name}_dim": 0}, drop=True)
+
+    g = term("gtyp")
+    a = term("age")
+    s = term("sex")
+
+    ga = term("gtyp:age")
+    gs = term("gtyp:sex")
+    as_ = term("age:sex")
+    gas = term("gtyp:age:sex")
+
+    return {
+        "fa/+,female,adult": 0 * g,
+        "fa/+,female,young": a,
+        "fa/+,male,adult": s,
+        "fa/+,male,young": a + s + as_,
+
+        "fa/fa,female,adult": g,
+        "fa/fa,female,young": g + a + ga,
+        "fa/fa,male,adult": g + s + gs,
+        "fa/fa,male,young": g + a + s + ga + gs + as_ + gas,
+    }
+
 def get_t_groups_power_baseline(idata, band="canon"):
     """Group predictors relative to fa/+,female,adult within a band.
 
@@ -162,6 +202,10 @@ def get_overall_effects(t_groups):
 
 def get_mean(idata):
     t_groups = get_t_groups(idata)
+    return idata.posterior["Intercept"] + sum(t_groups.values()) / len(t_groups)
+
+def get_mean_tgf_change(idata):
+    t_groups = get_t_groups_tgf_change(idata)
     return idata.posterior["Intercept"] + sum(t_groups.values()) / len(t_groups)
 
 
