@@ -8,13 +8,15 @@ FORMULA_BASELINE_POWER = bmb.Formula(
     "log_baseline ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex",
 )
 FORMULA_POWER_CHANGE = bmb.Formula(
-    "ln_change ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex",
+    "ln_change ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex"
+    " + age:sex + gtyp:age:sex",
 )
 FORMULA_FREQUENCY_BASELINE = bmb.Formula(
     "baseline ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex",
 )
 FORMULA_FREQUENCY_CHANGE = bmb.Formula(
-    "ln_change ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex",
+    "ln_change ~ (1|rat) + gtyp + age + sex + gtyp:age + gtyp:sex"
+    " + age:sex + gtyp:age:sex",
 )
 FORMULA_BAT = bmb.Formula(
     "c(canonical, double, subthreshold, beats) ~ (1|rat) + gtyp + age + sex"
