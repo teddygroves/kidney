@@ -1,33 +1,135 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import polars as  pl
+
+# def plot_ppc(ax, idata, msts, ycol, xcol=None, groupcol=None):
+#     qlow, qhigh = (
+#         idata.posterior_predictive[ycol]
+#         .quantile([0.01, 0.99], dim=["chain", "draw"])
+#         .to_numpy()
+#     )
+#     plot_df = msts.with_columns(qlow=qlow, qhigh=qhigh)
+#     if groupcol is None:
+#         groupcol = "dummy"
+#         plot_df = plot_df.with_columns(dummy=1.0)
+#     if xcol is None:
+#         xcol = "index"
+#         plot_df = plot_df.sort(groupcol).with_row_index()
+#     for (groupname,), subdf in plot_df.group_by(groupcol, maintain_order=True):
+#         sct = ax.scatter(subdf[xcol], subdf[ycol], s=7, label=groupname)
+#         ax.vlines(
+#             subdf[xcol],
+#             subdf["qlow"],
+#             subdf["qhigh"],
+#             zorder=10,
+#             alpha=0.1,
+#             color=sct.get_facecolors()[-1],
+#         )
+#     ax.set(xlabel=xcol, ylabel=ycol)
+#     ax.legend(frameon=False)
+#     return ax
 
 
-def plot_ppc(ax, idata, msts, ycol, xcol=None, groupcol=None):
+def plot_ppc(
+    ax, idata, msts, ycol,
+    xcol=None, groupcol=None,
+    separate_by=None, group_gap=0,
+    linew=0.3,
+):
     qlow, qhigh = (
         idata.posterior_predictive[ycol]
         .quantile([0.01, 0.99], dim=["chain", "draw"])
         .to_numpy()
     )
+
     plot_df = msts.with_columns(qlow=qlow, qhigh=qhigh)
+
     if groupcol is None:
-        groupcol = "dummy"
-        plot_df = plot_df.with_columns(dummy=1.0)
+        groupcol = "_dummy"
+        plot_df = plot_df.with_columns(
+            pl.lit("Data").alias(groupcol)
+        )
+
+    if separate_by is not None and xcol is not None:
+        raise ValueError(
+            "separate_by currently requires xcol=None"
+        )
+
     if xcol is None:
-        xcol = "index"
-        plot_df = plot_df.sort(groupcol).with_row_index()
-    for (groupname,), subdf in plot_df.group_by(groupcol, maintain_order=True):
-        sct = ax.scatter(subdf[xcol], subdf[ycol], s=7, label=groupname)
+        xcol = "_plot_x"
+
+        sort_cols = (
+            [separate_by, groupcol]
+            if separate_by is not None
+            else [groupcol]
+        )
+        plot_df = plot_df.sort(sort_cols)
+
+        # Add horizontal spacing between groups
+        if separate_by is not None:
+            groups = plot_df[separate_by].to_list()
+            offsets = []
+            n_gaps = 0
+
+            for i, group in enumerate(groups):
+                if i > 0 and group != groups[i - 1]:
+                    n_gaps += 1
+                offsets.append(i + n_gaps * group_gap)
+
+        else:
+            offsets = list(range(len(plot_df)))
+
+        plot_df = plot_df.with_columns(
+            pl.Series(xcol, offsets)
+        )
+
+    # Plot observations and predictive intervals
+    for (groupname,), subdf in plot_df.group_by(
+        groupcol, maintain_order=True
+    ):
         ax.vlines(
             subdf[xcol],
             subdf["qlow"],
             subdf["qhigh"],
-            zorder=10,
-            alpha=0.1,
-            color=sct.get_facecolors()[-1],
+            color="gray",
+            alpha=0.35,
+            lw=linew,
+            zorder=1,
         )
-    ax.set(xlabel=xcol, ylabel=ycol)
-    ax.legend(frameon=False)
+
+        ax.scatter(
+            subdf[xcol],
+            subdf[ycol],
+            s=7,
+            label=str(groupname),
+            zorder=3,
+        )
+
+    # Label separated groups on the x-axis
+    if separate_by is not None:
+        centers = []
+        labels = []
+
+        for (name,), subdf in plot_df.group_by(
+            separate_by, maintain_order=True
+        ):
+            centers.append(
+                (subdf[xcol].min() + subdf[xcol].max()) / 2
+            )
+            labels.append(str(name))
+
+        ax.set_xticks(centers, labels)
+        ax.set_xlabel(separate_by)
+    else:
+        ax.set_xlabel("" if xcol == "_plot_x" else xcol)
+
+    ax.set_ylabel(ycol)
+
+    if groupcol != "_dummy":
+        ax.legend(frameon=False)
+
     return ax
+
 
 
 def plot_ppc_multinomial(

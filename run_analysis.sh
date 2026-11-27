@@ -13,8 +13,7 @@ uv run scripts/run_mcmc.py
 uv run scripts/run_mcmc_new.py
 
 echo "Step 3: Executing notebook..."
-uv run jupyter execute notebooks/analyse\ fits.ipynb
-uv run jupyter execute notebooks/ppc_biochem_bodyweight.ipynb
+uv run jupyter execute notebooks/ppc_biochem_bodyweight_combined.ipynb
 uv run jupyter execute notebooks/blood\ glucose.ipynb
 uv run jupyter execute notebooks/analyse\ fits-bfi-new.ipynb
 uv run jupyter execute notebooks/analyse\ fits-BodyWeight_overall_effects.ipynb
